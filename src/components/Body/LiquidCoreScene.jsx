@@ -5,7 +5,6 @@ import { liquidFragmentShader, liquidVertexShader } from '../../shaders/liquidCo
 
 function LiquidCore({ status = 'idle' }) {
   const meshRef = useRef();
-
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
@@ -18,14 +17,12 @@ function LiquidCore({ status = 'idle' }) {
 
   useFrame((_, delta) => {
     uniforms.uTime.value += delta;
-    const map = { idle: 0, thinking: 1, processing: 2 };
-    uniforms.uStatus.value = map[status] ?? 0;
+    uniforms.uStatus.value = ({ idle: 0, thinking: 1, processing: 2 }[status] ?? 0);
 
-    if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.16;
-      const targetScaleY = status === 'thinking' ? 1.25 : 1;
-      meshRef.current.scale.y = THREE.MathUtils.lerp(meshRef.current.scale.y, targetScaleY, 0.08);
-    }
+    if (!meshRef.current) return;
+    meshRef.current.rotation.y += delta * 0.16;
+    const targetScaleY = status === 'thinking' ? 1.25 : 1;
+    meshRef.current.scale.y = THREE.MathUtils.lerp(meshRef.current.scale.y, targetScaleY, 0.08);
   });
 
   return (

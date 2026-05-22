@@ -1,3 +1,3 @@
-// Legacy compatibility entrypoint retained to reduce merge conflicts with branches
-// that still reference src/main.js. The Vite/React app uses src/main.jsx.
+// Compatibility shim for branches that still reference src/main.js.
+// Primary app entry is src/main.jsx.
 import './main.jsx';
